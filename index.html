@@ -1,0 +1,204 @@
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Running line creator</title>
+		<meta charset="utf-8"/>
+		<style>
+			textarea{
+				font-family: 'Courier New';
+				width: 98%;
+				height: 100px;
+			}
+			iframe{
+				border: 0;	
+			}
+			input{
+				width: 80px;
+			}
+			h4{
+				text-align: center;
+			}
+			#exampleCnv{
+				width: 100%;
+				height: 60px;
+				background-color: #444;	
+			}
+			@font-face {
+				font-family: 'lobster';
+				src: url('/Lobster-Regular.ttf');
+			}
+			h1{
+				color: #ecd39b;
+				text-align: center;
+				font-family: 'lobster';
+			}
+			body{
+				font-family: 'Courier New';
+				font-size: 14pt;
+				color: #FFF;
+				background-color: #000;	
+			}
+			#speed{
+				width: 80%;
+			}
+			#main{
+				border: 2px solid #222;
+				background-color: #333;
+			}
+			@media (min-width: 600px) {
+				#main{
+				padding: 20px;
+				display: inline-block;
+				position: absolute;
+				left: 0;
+				right: 0;
+				top: 20px;
+				width: 600px;
+				height: auto;
+				margin: auto;
+				border-radius: 15px;
+				}
+				#footer{
+					position: absolute;
+				}
+			}
+			@media (max-width: 599px) {
+				#main{
+				padding: 5px;
+				width: 100%;
+				height:auto;
+				}
+			}
+			.btnCPview{
+				border: none;
+				display: block;
+				left: 0px;
+				right: 0px;
+				width: 90%;
+				margin: auto;
+				font-size: 14pt;
+				font-family: Courier;
+				border-radius: 8px;
+				background-color: #777;
+				color: #ecd39b;
+			}
+			.btnCPview:hover{
+				background-color: #988;
+			}
+			.btnCPview:active{
+				background-color: #aaa;
+			}
+			.btnCPview:focus {
+				outline: 0 !important;
+			}
+		</style>
+		<script>
+			var cnv=null;
+			const helloLine="Hello dear User! Welcome to this page! It's the Running Line Creator.";
+			function updateUrlEmbedding(){
+				var t=document.querySelector("textarea").value;
+				var bgCl=document.querySelector("#bgSl").value;
+				var tCl=document.querySelector("#clSl").value;
+				var speed=document.querySelector("#speed").value;
+				var addHash=encodeURIComponent(JSON.stringify({ text: t, bg: bgCl, color: tCl, sp: speed}));
+				var urlSet="https://"+window.location.hostname+"/runningLineCreatorEmbedding.html#"+addHash;
+				document.querySelector("iframe").src=urlSet;
+			}
+			function helloStarter(){
+				updateUrlEmbedding();
+				inW.oninput=function(){document.querySelector("iframe").width=inW.value};
+				inH.oninput=function(){document.querySelector("iframe").height=inH.value};
+				cnv=document.querySelector("#exampleCnv");				
+				ctx = cnv.getContext("2d");
+				var tpos=cnv.offsetWidth;
+				setInterval(function(){
+					var limit=-(helloLine.length*cnv.height)/2.1;
+					tpos-=4;
+					if(tpos<=limit)tpos=cnv.offsetWidth;	
+					cnv.width=cnv.offsetWidth;
+					cnv.height=cnv.offsetHeight;
+					ctx.clearRect(0, 0, cnv.width, cnv.height);
+					ctx.font = String(cnv.height*0.8)+"px 'Courier New'";
+					ctx.fillStyle = "#ff0000";
+					ctx.fillText(helloLine, tpos, cnv.height*0.8);
+				},40);
+			}
+			function starter(){
+				helloStarter();
+			}
+			function CopyText()
+			{
+				var codeVal = document.getElementById("preview").innerHTML;
+				var i=document.createElement("input");
+				i.value=codeVal;
+				document.body.appendChild(i);
+				i.select();
+				document.execCommand("copy");
+				document.body.removeChild(i);
+				alert("html for embedding was coppied");
+			}
+			window.onload=starter;
+		</script>
+	</head>
+	<body>
+		<div id="main">
+		<h1>the Running Line Creator</h1>
+		<canvas id="exampleCnv"></canvas>
+		<p>Using running lines is a pretty way of showing text.
+		Here you can create running lines and copy html code for embedding.
+		</p>
+		<h4>Creating running line with your text</h4>
+		<p>
+			<textarea oninput="updateUrlEmbedding()">Write your text here</textarea><br>
+			background:
+			<select id="bgSl" onchange="updateUrlEmbedding()">
+				<option selected value="black">black</option>
+				<option value="white">white</option>
+				<option value="grey">grey</option>
+				<option value="blue">blue</option>
+				<option value="green">green</option>
+				<option value="greenyellow">greenyellow</option>
+				<option value="yellow">yellow</option>
+				<option value="red">red</option>
+				<option value="brown">brown</option>
+				<option value="pink">pink</option>
+				<option value="orange">orange</option>
+				<option value="magenta">magenta</option>
+				<option value="sandybrown">sandybrown</option>
+				<option value="turquoise">turquoise</option>
+				<option value="deepskyblue">deepskyblue</option>
+			</select><br>
+			color:
+			<select id="clSl" onchange="updateUrlEmbedding()">
+				<option value="black">black</option>
+				<option value="white">white</option>
+				<option value="grey">grey</option>
+				<option value="blue">blue</option>
+				<option selected value="green">green</option>
+				<option value="greenyellow">greenyellow</option>
+				<option value="yellow">yellow</option>
+				<option value="red">red</option>
+				<option value="brown">brown</option>
+				<option value="pink">pink</option>
+				<option value="orange">orange</option>
+				<option value="magenta">magenta</option>
+				<option value="sandybrown">sandybrown</option>
+				<option value="turquoise">turquoise</option>
+				<option value="deepskyblue">deepskyblue</option>
+			</select>
+			<p>
+			width: <input id="inW" value="200" type="number"/>px
+			height: <input id="inH" value="40" type="number"/>px
+			</p>
+			<p>speed:
+			<input oninput="updateUrlEmbedding()" id="speed" type="range" min="0" max="100" value="50"></p>
+			<p><button class="btnCPview" onclick="CopyText()">Copy code for embedding</button></p>
+			<p><button class="btnCPview" onclick="var a=document.createElement('a'); a.href=document.querySelector('iframe').src; a.target='_blank'; a.click();">View only running line page</button></p>
+		</p>
+		preview:<br>
+		<span id="preview"><iframe width="200" height="40"/></iframe></span>
+		</div>
+	</body>
+</html>
